@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kerv County Council</title>
+<meta name="description" content="Kerv County Council — pay, apply and report online. Council tax, bins and recycling, housing, business rates and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --purple-900:#2d0952;
+    --purple-800:#3d0a6b;
+    --purple-700:#5a10a0;
+    --purple-600:#7015c9;
+    --purple-500:#8b2fe0;
+    --purple-100:#f1e8fb;
+    --purple-50:#faf7fd;
+    --ink:#1c1530;
+    --ink-soft:#453a5c;
+    --paper:#faf9fc;
+    --white:#ffffff;
+    --border:#ddd6e8;
+    --amber-bg:#fef3e0;
+    --amber-border:#f0c777;
+    --amber-ink:#7a4a05;
+    --focus:#ffdd00;
+    --serif:'Source Serif 4', Georgia, serif;
+    --sans:'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    --max:1180px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block;}
+  a{color:var(--purple-700);}
+  a:not(.btn):not(.tile):not(.card-link){text-underline-offset:0.15em;}
+
+  /* Accessible focus state — a small authentic GDS-style touch */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  summary:focus-visible{
+    outline:3px solid var(--focus);
+    outline-offset:2px;
+    box-shadow:0 0 0 2px var(--ink);
+  }
+
+  .skip-link{
+    position:absolute;
+    left:-9999px;
+    top:0;
+    background:var(--focus);
+    color:var(--ink);
+    padding:0.75rem 1.25rem;
+    font-weight:700;
+    z-index:1000;
+    text-decoration:none;
+  }
+  .skip-link:focus{left:0.75rem; top:0.75rem;}
+
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 1.5rem;}
+
+  /* ---------- Utility bar ---------- */
+  .utility-bar{
+    background:var(--purple-900);
+    color:#e7d9f7;
+    font-size:0.8125rem;
+  }
+  .utility-bar .wrap{
+    display:flex;
+    justify-content:flex-end;
+    gap:1.5rem;
+    padding-top:0.45rem;
+    padding-bottom:0.45rem;
+    flex-wrap:wrap;
+  }
+  .utility-bar a{
+    color:#e7d9f7;
+    text-decoration:none;
+  }
+  .utility-bar a:hover{text-decoration:underline;}
+
+  /* ---------- Header ---------- */
+  header.site-header{
+    background:var(--purple-800);
+    color:var(--white);
+    border-bottom:4px solid var(--purple-600);
+  }
+  .header-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1.5rem;
+    padding:1.15rem 0;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:0.85rem;
+    text-decoration:none;
+    color:var(--white);
+  }
+  .crest{width:44px; height:44px; flex-shrink:0;}
+  .brand-text{font-family:var(--serif); line-height:1.15;}
+  .brand-text .county{
+    display:block;
+    font-size:0.7rem;
+    letter-spacing:0.06em;
+    font-weight:500;
+    color:#cba9ec;
+    font-family:var(--sans);
+  }
+  .brand-text .name{
+    display:block;
+    font-size:1.35rem;
+    font-weight:600;
+  }
+
+  .search-form{
+    display:flex;
+    flex:1;
+    max-width:420px;
+  }
+  .search-form input{
+    flex:1;
+    border:2px solid var(--white);
+    border-right:none;
+    padding:0.55rem 0.8rem;
+    font-family:var(--sans);
+    font-size:0.95rem;
+    border-radius:3px 0 0 3px;
+  }
+  .search-form button{
+    background:var(--focus);
+    border:2px solid var(--focus);
+    color:var(--ink);
+    font-weight:700;
+    padding:0 1rem;
+    border-radius:0 3px 3px 0;
+    cursor:pointer;
+    font-size:0.95rem;
+  }
+  .search-form button:hover{background:#ffe85c;}
+
+  /* ---------- Nav ---------- */
+  nav.primary-nav{
+    background:var(--purple-600);
+  }
+  .nav-list{
+    list-style:none;
+    display:flex;
+    margin:0;
+    padding:0;
+    flex-wrap:wrap;
+  }
+  .nav-list a{
+    display:block;
+    color:var(--white);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.925rem;
+    padding:0.85rem 1.1rem;
+    border-right:1px solid rgba(255,255,255,0.18);
+  }
+  .nav-list a:hover{background:var(--purple-700);}
+  .nav-toggle{display:none;}
+
+  /* ---------- Alert banner ---------- */
+  .alert-banner{
+    background:var(--amber-bg);
+    border-bottom:1px solid var(--amber-border);
+  }
+  .alert-banner .wrap{
+    display:flex;
+    align-items:flex-start;
+    gap:0.75rem;
+    padding-top:0.8rem;
+    padding-bottom:0.8rem;
+    color:var(--amber-ink);
+    font-size:0.925rem;
+  }
+  .alert-banner svg{flex-shrink:0; margin-top:0.15rem;}
+  .alert-banner strong{font-weight:700;}
+  .alert-banner a{color:var(--amber-ink); font-weight:700;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    background:linear-gradient(160deg, var(--purple-100) 0%, var(--paper) 65%);
+    padding:3.2rem 0 2.8rem;
+    border-bottom:1px solid var(--border);
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:2.5rem;
+    align-items:center;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-size:2.5rem;
+    line-height:1.15;
+    margin:0 0 0.75rem;
+    font-weight:600;
+    color:var(--purple-900);
+  }
+  .hero p.lede{
+    font-size:1.125rem;
+    color:var(--ink-soft);
+    max-width:42ch;
+    margin:0 0 1.5rem;
+  }
+  .hero-tasks{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-wrap:wrap;
+    gap:0.6rem;
+  }
+  .hero-tasks a{
+    display:inline-block;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-left:4px solid var(--purple-600);
+    color:var(--ink);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.9rem;
+    padding:0.55rem 0.9rem;
+    border-radius:2px;
+  }
+  .hero-tasks a:hover{border-left-color:var(--purple-800); background:var(--purple-50);}
+
+  .hero-panel{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-top:4px solid var(--purple-600);
+    padding:1.75rem;
+    border-radius:4px;
+  }
+  .hero-panel h2{
+    font-family:var(--serif);
+    font-size:1.2rem;
+    margin:0 0 0.4rem;
+    color:var(--purple-900);
+  }
+  .hero-panel p{
+    margin:0 0 1.1rem;
+    color:var(--ink-soft);
+    font-size:0.95rem;
+  }
+  .hero-panel .hours{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    margin-top:0.9rem;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:0.5rem;
+    background:var(--purple-600);
+    color:var(--white);
+    text-decoration:none;
+    font-weight:700;
+    font-size:0.95rem;
+    padding:0.7rem 1.2rem;
+    border-radius:3px;
+    border:2px solid var(--purple-600);
+    cursor:pointer;
+    font-family:var(--sans);
+  }
+  .btn:hover{background:var(--purple-700); border-color:var(--purple-700);}
+  .btn-block{width:100%; justify-content:center;}
+
+  /* ---------- Section heading ---------- */
+  .section{padding:3rem 0;}
+  .section-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:1rem;
+    margin-bottom:1.75rem;
+    border-bottom:2px solid var(--border);
+    padding-bottom:0.9rem;
+  }
+  .section-head h2{
+    font-family:var(--serif);
+    font-size:1.7rem;
+    margin:0;
+    color:var(--purple-900);
+    font-weight:600;
+  }
+  .section-head .section-link{
+    font-weight:600;
+    font-size:0.9rem;
+    white-space:nowrap;
+    text-decoration:none;
+  }
+
+  /* ---------- Service tiles ---------- */
+  .tiles{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1.1rem;
+  }
+  .tile{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1.4rem 1.3rem;
+    text-decoration:none;
+    color:var(--ink);
+    display:flex;
+    flex-direction:column;
+    gap:0.7rem;
+    transition:border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .tile:hover{
+    border-color:var(--purple-600);
+    box-shadow:0 2px 0 0 var(--purple-600);
+  }
+  .tile .icon{
+    width:34px; height:34px;
+    color:var(--purple-600);
+  }
+  .tile h3{
+    font-size:1.02rem;
+    margin:0;
+    font-weight:700;
+  }
+  .tile p{
+    margin:0;
+    font-size:0.875rem;
+    color:var(--ink-soft);
+    line-height:1.45;
+  }
+
+  /* ---------- Two column: news + sidebar ---------- */
+  .two-col{
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    gap:2.5rem;
+  }
+  .news-list{
+    display:flex;
+    flex-direction:column;
+  }
+  .news-item{
+    display:flex;
+    gap:1.25rem;
+    padding:1.15rem 0;
+    border-bottom:1px solid var(--border);
+  }
+  .news-item:first-child{padding-top:0;}
+  .news-date{
+    flex-shrink:0;
+    width:72px;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    font-weight:600;
+    padding-top:0.2rem;
+  }
+  .news-item h3{
+    margin:0 0 0.35rem;
+    font-size:1.05rem;
+  }
+  .news-item h3 a{
+    color:var(--ink);
+    text-decoration:none;
+  }
+  .news-item h3 a:hover{color:var(--purple-700); text-decoration:underline;}
+  .news-item p{
+    margin:0;
+    font-size:0.9rem;
+    color:var(--ink-soft);
+  }
+
+  .sidebar-box{
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:1.5rem;
+    margin-bottom:1.5rem;
+  }
+  .sidebar-box h3{
+    font-family:var(--serif);
+    font-size:1.1rem;
+    margin:0 0 0.9rem;
+    color:var(--purple-900);
+  }
+  .task-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .task-list li{
+    border-bottom:1px solid var(--border);
+  }
+  .task-list li:last-child{border-bottom:none;}
+  .task-list a{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:0.5rem;
+    padding:0.7rem 0.1rem;
+    text-decoration:none;
+    color:var(--ink);
+    font-size:0.925rem;
+    font-weight:600;
+  }
+  .task-list a:hover{color:var(--purple-700);}
+  .task-list a svg{flex-shrink:0; color:var(--purple-600);}
+
+  /* ---------- Footer ---------- */
+  footer.site-footer{
+    background:var(--purple-900);
+    color:#cdb7ea;
+    padding:3rem 0 1.75rem;
+    margin-top:1rem;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:2rem;
+    padding-bottom:2rem;
+    border-bottom:1px solid rgba(255,255,255,0.15);
+  }
+  .footer-grid h4{
+    color:var(--white);
+    font-size:0.95rem;
+    margin:0 0 0.9rem;
+    font-family:var(--serif);
+    font-weight:600;
+  }
+  .footer-grid ul{list-style:none; margin:0; padding:0;}
+  .footer-grid li{margin-bottom:0.55rem;}
+  .footer-grid a{
+    color:#cdb7ea;
+    text-decoration:none;
+    font-size:0.9rem;
+  }
+  .footer-grid a:hover{color:var(--white); text-decoration:underline;}
+  .footer-grid address{font-style:normal; font-size:0.9rem; line-height:1.6;}
+
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:1rem;
+    padding-top:1.5rem;
+    font-size:0.8125rem;
+  }
+  .footer-bottom .crest{width:30px; height:30px;}
+  .footer-legal{
+    display:flex;
+    gap:1.25rem;
+    flex-wrap:wrap;
+  }
+  .footer-legal a{color:#cdb7ea; text-decoration:none;}
+  .footer-legal a:hover{text-decoration:underline;}
+  .disclaimer{
+    max-width:var(--max);
+    margin:1.75rem auto 0;
+    padding:0 1.5rem;
+    font-size:0.75rem;
+    color:#a58ac7;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid, .two-col{grid-template-columns:1fr;}
+    .tiles{grid-template-columns:repeat(2, 1fr);}
+    .footer-grid{grid-template-columns:repeat(2, 1fr);}
+    .hero h1{font-size:2rem;}
+  }
+
+  @media (max-width:640px){
+    .header-inner{flex-wrap:wrap;}
+    .search-form{max-width:100%; order:3; width:100%;}
+    nav.primary-nav .wrap{padding:0;}
+    .nav-list{
+      display:none;
+      flex-direction:column;
+      width:100%;
+    }
+    .nav-list.open{display:flex;}
+    .nav-list a{border-right:none; border-bottom:1px solid rgba(255,255,255,0.18);}
+    .nav-toggle{
+      display:block;
+      width:100%;
+      background:var(--purple-600);
+      color:var(--white);
+      border:none;
+      text-align:left;
+      font-weight:700;
+      font-size:0.95rem;
+      padding:0.85rem 1.5rem;
+      cursor:pointer;
+      font-family:var(--sans);
+    }
+    .tiles{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr; gap:1.5rem;}
+    .utility-bar .wrap{justify-content:center;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<div class="utility-bar">
+  <div class="wrap">
+    <a href="#">Accessibility statement</a>
+    <a href="#">Cymraeg</a>
+    <a href="#contact">Contact us</a>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#main" class="brand">
+      <svg class="crest" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M24 3 L43 10 V22 C43 33 35.5 41.5 24 45 C12.5 41.5 5 33 5 22 V10 Z" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5"/>
+        <path d="M24 9 L37 13.5 V22 C37 30 31.8 36 24 38.7 C16.2 36 11 30 11 22 V13.5 Z" fill="none" stroke="#ffdd00" stroke-width="1.5"/>
+        <path d="M24 15 L24 33 M17 20 L31 20 M18.5 27 L29.5 27" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="county">KERV COUNTY</span>
+        <span class="name">Kerv County Council</span>
+      </span>
+    </a>
+    <form class="search-form" role="search" action="#" onsubmit="return false;">
+      <label for="site-search" class="visually-hidden" style="position:absolute;left:-9999px;">Search this site</label>
+      <input type="search" id="site-search" name="q" placeholder="Search Kerv County Council">
+      <button type="submit" aria-label="Search">Search</button>
+    </form>
+  </div>
+</header>
+
+<nav class="primary-nav" aria-label="Primary">
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList">Menu ☰</button>
+  <div class="wrap">
+    <ul class="nav-list" id="navList">
+      <li><a href="#services">Bins &amp; recycling</a></li>
+      <li><a href="#services">Council tax</a></li>
+      <li><a href="#services">Housing</a></li>
+      <li><a href="#services">Business</a></li>
+      <li><a href="#services">Libraries &amp; leisure</a></li>
+      <li><a href="#contact">Contact us</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="alert-banner">
+  <div class="wrap">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>
+    <div><strong>Planned roadworks:</strong> Alderbrook High Street will be closed 18–22 September. Some bin collections nearby may run a day late. <a href="#services">Check your collection day</a>.</div>
+  </div>
+</div>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>Council services for Kerv County</h1>
+        <p class="lede">Pay a bill, report a problem or apply for support online — available any time, day or night.</p>
+        <ul class="hero-tasks">
+          <li><a href="#services">Pay my council tax</a></li>
+          <li><a href="#services">Find my bin day</a></li>
+          <li><a href="#services">Report a pothole</a></li>
+          <li><a href="#services">Apply for a parking permit</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Popular services</h2>
+        <a href="#" class="section-link">View all services</a>
+      </div>
+      <div class="tiles">
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 7h14l-1.2 13.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9L5 7Z"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 7h18"/></svg>
+          <h3>Bins &amp; recycling</h3>
+          <p>Check your collection day, order a new bin or report one that's been missed.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="6"/><path d="M14.5 6.5A6 6 0 1 1 6.5 14.5"/><path d="M9 6.5v5l3 1.8"/></svg>
+          <h3>Council tax</h3>
+          <p>Pay your bill, set up a direct debit, or check if you're eligible for a discount.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 12h4l2-3 3 6 2-4h7"/><circle cx="12" cy="12" r="10"/></svg>
+          <h3>Report it</h3>
+          <p>Tell us about a pothole, fly-tipping, a broken streetlight or graffiti.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>
+          <h3>Housing</h3>
+          <p>Apply for housing, report a repair, or find social housing in your area.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="8" width="16" height="12" rx="1"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+          <h3>Business rates</h3>
+          <p>Pay your business rates and find support and grants for local businesses.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4v16H5zM11 4h4v16h-4zM17 4h2v16h-2z"/></svg>
+          <h3>Libraries &amp; leisure</h3>
+          <p>Join a library, book a class, or find your nearest leisure centre.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 17h14M6 17V9l6-4 6 4v8M9 17v-4h6v4"/></svg>
+          <h3>Parking &amp; travel</h3>
+          <p>Pay a parking fine, apply for a permit, or check for road closures.</p>
+        </a>
+
+        <a class="tile" href="#">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3v4M16 3v4M4 9h16M5 6h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"/><path d="M9 13h.01M12 13h.01M15 13h.01M9 16h.01M12 16h.01"/></svg>
+          <h3>Registrar services</h3>
+          <p>Register a birth, death or marriage, or book a ceremony.</p>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap two-col">
+      <div>
+        <div class="section-head">
+          <h2>Latest news</h2>
+          <a href="#" class="section-link">All news</a>
+        </div>
+        <div class="news-list">
+          <div class="news-item">
+            <div class="news-date">12 Sep 2026</div>
+            <div>
+              <h3><a href="#">New recycling centre opens in Foxmere</a></h3>
+              <p>The new household waste and recycling centre on Millbrook Road is now open, with extended weekend hours for residents.</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-date">8 Sep 2026</div>
+            <div>
+              <h3><a href="#">Council tax support scheme extended for 2026/27</a></h3>
+              <p>Residents on a low income may now be eligible for further reductions. Check your eligibility and apply online.</p>
+            </div>
+          </div>
+          <div class="news-item">
+            <div class="news-date">2 Sep 2026</div>
+            <div>
+              <h3><a href="#">Have your say: Rivenhall town centre regeneration</a></h3>
+              <p>A six-week consultation on proposed changes to Rivenhall town centre is now open to all residents and local businesses.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="sidebar-box">
+          <h3>Popular tasks</h3>
+          <ul class="task-list">
+            <li><a href="#">Find my bin collection day <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">Pay my council tax <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">Report a pothole <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">Apply for a parking permit <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+            <li><a href="#">Find a school place <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>About the council</h4>
+        <ul>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Councillors &amp; committees</a></li>
+          <li><a href="#">Jobs &amp; careers</a></li>
+          <li><a href="#">Budgets &amp; performance</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <address>
+          Kerv County Council<br>
+          County Hall, Alderbrook<br>
+          Kerv County, KC1 2AB<br><br>
+          01234 567 890
+        </address>
+      </div>
+      <div>
+        <h4>Your area</h4>
+        <ul>
+          <li><a href="#">Alderbrook</a></li>
+          <li><a href="#">Foxmere</a></li>
+          <li><a href="#">Rivenhall</a></li>
+          <li><a href="#">Millbrook Green</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Follow us</h4>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">X (Twitter)</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Newsletter sign-up</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <svg class="crest" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M24 3 L43 10 V22 C43 33 35.5 41.5 24 45 C12.5 41.5 5 33 5 22 V10 Z" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+      </svg>
+      <span>&copy; 2026 Kerv County Council. All rights reserved.</span>
+      <div class="footer-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+        <a href="#">Terms of use</a>
+        <a href="#">Accessibility statement</a>
+      </div>
+    </div>
+  </div>
+  <p class="disclaimer">Kerv County Council is a fictional local authority, built to demonstrate Genesys Cloud Web Messenger. Not a real council.</p>
+</footer>
+
+<!--
+  Genesys Cloud Web Messenger:
+  This page intentionally has no messenger embed code. Inject it via a
+  Tampermonkey userscript so the deployment config stays outside the
+  static site. Both the "Talk to us online" hero panel and the sidebar
+  chat box have been removed so the widget itself is the only chat
+  entry point on the page.
+-->
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navList = document.getElementById('navList');
+  navToggle.addEventListener('click', () => {
+    const open = navList.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
+  });
+</script>
+
+</body>
+</html>
